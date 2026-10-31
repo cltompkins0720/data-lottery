@@ -1,0 +1,25 @@
+name: FTP Deploy Develop Branch
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: FTP Deploy Branch
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v5
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+      with:
+        log-level: verbose
+        server: ftp.pitama.com
+        server-dir: public_html/_staging/_data/lottery/
+        username: pitamacorp
+        password: ${{ secrets.FTP_PASSWORD }}
